@@ -1,0 +1,331 @@
+.floatCD {
+	position:fixed;
+	top:0px;
+	right:50px;
+	height:160px;
+	width:80px;
+	-webkit-user-select:none;
+    -moz-user-select:none;
+    -ms-user-select:none;
+    user-select:none;
+	animation: moveDown 2s linear 1; 
+}
+.floatCD .line{
+	background:red;
+	width:2px;
+	height:80px;
+	left:39px;
+	position:absolute;
+	box-shadow: 0 0 5px #999;
+}
+.floatCD .cd{
+	width: 80px;
+    height: 80px;
+    position: absolute;
+    top: 10px;
+    left: 0px;
+    border-radius: 50%;
+	top:80px;
+	box-shadow: 0 0 20px #999;
+	border: 1px #555 solid;
+	-webkit-animation:  CDturn 10s linear infinite;
+    -moz-animation:  CDturn 10s linear infinite;
+	animation: CDturn 10s linear infinite;
+	animation-play-state: paused;
+	-webkit-animation-play-state: paused;
+}
+.floatCD .player{
+	position: absolute;
+	width:20px;
+	height:20px;
+	cursor: pointer;
+	display: block;
+}
+.floatCD .pause{
+    top: 107px;
+    left: 28px;
+	width: 25px;
+    height: 25px;
+    background: url(../img/pause.png) no-repeat;
+    background-size: 100% 100%;
+}
+.floatCD .play{
+	top: 107px;
+    left: 28px;
+	width: 25px;
+    height: 25px;
+	background: url(../img/play.png) no-repeat;
+	background-size: 100% 100%;
+}
+.floatCD .prev{
+	top: 110px;
+    left: 4px;
+	background: url(../img/prev.png) no-repeat;
+	background-size: 100% 100%;
+}
+.floatCD .next{
+	top: 110px;
+    right: 2px;
+	background: url(../img/next.png) no-repeat;
+	background-size: 100% 100%;
+}
+.floatCD .list{
+	bottom: 2px;
+    left: 29px;
+	background: url(../img/list.png) no-repeat;
+	background-size: 100% 100%;
+}
+.Thplayer .pause{
+    width: 32px;
+    height: 32px;
+    left: 35px;
+    top: 35px;
+}
+.Thplayer .play{
+    width: 32px;
+    height: 32px;
+    left: 35px;
+    top: 35px;
+}
+.Thplayer .prev{
+	left: 12px;
+    top: 42px;
+}
+.Thplayer .next{
+	left: 70px;
+    top: 42px;
+}
+.Thplayer .cd{
+	width: 80px;
+    height: 80px;
+    position: absolute;
+    top: 10px;
+    left: 10px;
+}
+
+.player-bgColor {
+    background-color: black;
+}
+.Thplayer {
+    position: fixed;
+    top: 180px;
+    right: -350px;
+    width: 350px;
+    height: 100px;
+    box-sizing: border-box;
+    border-bottom: 2px solid #eee;
+    z-index: 999;
+}
+.player-mask {
+    width: 80px;
+    height: 80px;
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    border-radius: 50%;
+    background: #101010;
+    opacity: 0.4;
+}
+
+.player-info {
+    font-size: 90%;
+    position: absolute;
+    width: 180px;
+    height: 20px;
+    overflow: hidden;
+    left: 100px;
+    top: 20px;
+    color: #565454;
+    font-family: "微软雅黑";
+}
+.player-info .title {
+    float: left;
+}
+.player-showFount {
+    color: wheat;
+}
+.player-info .and {
+    margin: 0 5px;
+}
+
+.player-showFount {
+    color: wheat;
+}
+.player-showFount {
+    color: wheat;
+}
+.player-control {
+    position: absolute;
+    top: 50px;
+    left: 105px;
+    color: #75746e;
+    font-size: 85%;
+}
+
+.player-showFount {
+    color: wheat;
+}
+
+.player-showFount {
+    color: wheat;
+}
+
+.player-showFount {
+    color: wheat;
+}
+.player-listbox {
+    position: absolute;
+    /* bottom: 100px; */
+    top: 100px;
+    left: 0;
+    width: 350px;
+    height: 400px; /* TODO:*/
+    overflow: hidden;
+    background-color: black;
+    -webkit-transition: height .5s;
+    -moz-transition: height .5s;
+    -o-transition: height .5s;
+    transition: height .5s;
+}
+.player-listbox input {
+    outline: none;
+    width: 90%;
+    height: 25px;
+    margin-top: 20px;
+    border-radius: 20px;
+    padding-left: 10px;
+    background: transparent;
+    border: 2px #fff solid;
+    color: #fff;
+    box-shadow: 0 0 10px #fff;
+}
+
+.floatCD .close-icon{
+    position: absolute;
+    cursor: pointer;
+    right: 10px;
+	color: #BBB;
+    font-size: 25px;
+	top: 10px;
+}
+.floatCD .close-icon:hover{
+    color: #EEE;
+}
+
+.searchBox{
+	width:100%;
+	text-align:center;
+	position:relative
+}
+
+.btnSearch {
+width: 20px;
+    height: 20px;
+    position: absolute;
+    top: 25px;
+    cursor: pointer;
+    right: 20px;
+}
+.player-bgImg {
+    background-image: ../img/log.png!important;
+}
+.player-showFountTitle {
+    /* color: red; */
+}
+
+.player-process {
+    position: absolute;
+    top: 80px;
+    left: 100px;
+    width: 200px;
+    height: 2px;
+    margin-top: 0;
+    background: #6f6e79;
+}
+.player-current {
+    top: 80px;
+    left: 100px;
+    width: 0px;
+    height: 2px;
+    margin-top: 0;
+    background: #ed0b0d;
+}
+.player-process span {
+    position: absolute;
+    top: 0;
+    left: 0;
+    margin-top: -3px;
+    margin-right: -10px;
+    height: 5px;
+    width: 5px;
+    border: 1px solid #272636;
+    -webkit-border-radius: 50%;
+    border-radius: 50%;
+    background: #ffffff;
+    cursor: pointer!important;
+}
+
+.th-list-table{
+	margin-top:10px;
+}
+
+.th-list-table thead{
+	display:block;
+	height:30px;
+	border-bottom: 1px red solid;
+	font-family: 微软雅黑;
+	font-size: 14px;
+}
+
+.UserList{
+	display:block;
+	height: 266px;
+	width:350px;
+	overflow:auto;
+	margin-top:10px;
+}
+
+
+.UserList tr{
+    font-size: 12px;
+    padding: 0 10px;
+    display: inline-block;
+    height: 30px;
+    line-height: 30px;
+    width: 93%;
+    color: wheat;
+}
+.UserList tr:hover{
+    background: #eee;
+    color: #ed0b0d;
+    font-weight: bold;
+    cursor: pointer;
+}
+.UserList::-webkit-scrollbar {
+    width: 5px;
+    background-color: #F5F5F5;
+}
+.UserList::-webkit-scrollbar-thumb {
+    background-color: #ed0b0d;
+}
+.UserList::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+    background-color: #F5F5F5;
+}
+
+.LoadMore{
+	cursor: pointer; 
+	text-align: center; 
+	font-size: 10px; 
+	color: rgb(86, 84, 84);
+}
+
+@keyframes CDturn{
+    from{transform:rotate(0deg)}
+    to{transform:rotate(360deg)}
+}
+
+@keyframes moveDown {
+	0%{top:-160px;}
+	100%{top:0px;}
+}
