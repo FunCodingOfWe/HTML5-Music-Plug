@@ -88,6 +88,10 @@
 			var musicSize = 0;
 			// 当前播放音乐索引
 			var currentIndex = 0;
+			// 是否正在拖动进度条
+			var dragging = false; 
+			// 进度条拖动量
+			var iX, iY; 
 			
 			// 播放器
 			var musicPlayer = document.getElementById("musicPlayer");
@@ -120,6 +124,7 @@
 			// 进度条，未播放进度
 			var playerRightprocess = $("#player-current");
 			
+			
 			// 当播放清单不为空时
 			if ($.type(options.list) == "array" && options.list.length > 0) {
 				musicPlay(0);
@@ -132,12 +137,16 @@
 				if (parseInt(musicPlayer.currentTime%60) < 10){
 					var seconds = "0"+parseInt(musicPlayer.currentTime % 60);
 				}
-				else{
+				else {
 					var seconds = parseInt(musicPlayer.currentTime%60);
 				}
 				playTime.text(parseInt(musicPlayer.currentTime/60)+":"+seconds);
-				playerLeftprocess.css("left",(musicPlayer.currentTime/musicPlayer.duration)*200+"px");
-				playerRightprocess.css("width",(musicPlayer.currentTime/musicPlayer.duration)*200+"px");
+				
+				if (!dragging){
+					playerLeftprocess.css("left",(musicPlayer.currentTime/musicPlayer.duration)*200+"px");
+					playerRightprocess.css("width",(musicPlayer.currentTime/musicPlayer.duration)*200+"px");
+				}
+				
 			},1000);
 			
 			/*
@@ -152,6 +161,7 @@
 			// 开始播放时，获取歌曲时长
 			musicPlayer.onplaying = function() {
 				getSongTime();
+				//musicPlayer.currentTime = 50;
 			};
 			// 暂停播放时
 			musicPlayer.onpause = function() {
@@ -174,6 +184,48 @@
 					musicPlayNext();
 				},2000);
 			};
+			
+			/*
+			 *  进度条事件
+			 */
+			// 按下进度条控制按钮时触发
+			playerLeftprocess.mousedown(function(e) { 
+				// true 表示正在拖动进度条
+				dragging = true; 
+				// 记录偏移量
+				iX = e.clientX - this.offsetLeft; 
+				// 一旦窗口捕获了鼠标，所有鼠标输入都针对该窗口
+				this.setCapture && this.setCapture(); 
+			}); 
+			// 当鼠标移动时
+			document.onmousemove = function(e) { 
+				// 如果正在控制滚动条
+				if (dragging) { 
+					var e = e || window.event; 
+					// 记录鼠标移动量
+					var oX = e.clientX - iX; 
+					// 移动量最小0最大200
+					oX = (oX <= 0) ? 0 : ((oX >= 200) ? 200 : oX);
+					// 设置进度条按钮位置
+					playerLeftprocess.css("left", oX + "px");
+					// 设置进度条以播放量
+					playerRightprocess.css("width",oX + "px");
+				} 
+			}; 
+			// 当松开鼠标按钮时
+			$(document).mouseup(function(e) {
+				// 如果是控制进度条，并且播放器未报错时，快进/快退
+				if (dragging && null == musicPlayer.error && !isNaN(musicPlayer.duration)) {
+					// 控制音乐快进/快退
+					musicPlayer.currentTime = musicPlayer.duration * (playerRightprocess.width() / 200);
+				}
+				// 从当前线程中的窗口释放鼠标捕获
+				e.target.releaseCapture && e.target.releaseCapture();
+				// 是否控制进度条，改为否
+				dragging = false; 
+				// 阻止事件冒泡
+				e.cancelBubble = true; 
+			});
 			
 			/*
 			 * jquery Event
