@@ -75,6 +75,19 @@
 	background: url(../img/list.png) no-repeat;
 	background-size: 100% 100%;
 }
+.floatCD .volume{
+	top: 55px;
+    right: 11px;
+	width: 15px;
+    height: 15px;
+	background: url(../img/volume.png) no-repeat;
+    background-size: 100% 100%;
+}
+.floatCD .volume.mute{
+	background: url(../img/mute.png) no-repeat;
+    background-size: 100% 100%;
+}
+
 .Thplayer .pause{
     width: 32px;
     height: 32px;
@@ -101,6 +114,42 @@
     position: absolute;
     top: 10px;
     left: 10px;
+}
+
+.floatCD .player-volume-content{
+	position:absolute;
+	right:5px;
+	height: 130px;
+	width:40px;
+	background: black;
+	bottom: 55px;
+	box-shadow: 0 0 5px #111;
+	padding-top:15px;
+	display:none;
+}
+.floatCD .player-volume-content div {
+	margin: 0 auto;
+}
+.floatCD .player-volume-content .top-line {
+	background:#6f6e79;
+	width:2px;
+	height:100px;
+}
+
+.floatCD .player-volume-content .process {
+	width: 8px;
+	height: 8px;
+	border: 1px solid #272636;
+	-webkit-border-radius: 50%;
+	border-radius: 50%;
+	background: #ffffff;
+	cursor: pointer!important;
+}
+
+.floatCD .player-volume-content .bottom-line {
+	background:red;
+	width:2px;
+	height:0px;
 }
 
 .player-bgColor {

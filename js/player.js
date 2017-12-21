@@ -9,6 +9,7 @@
 			options = $.extend({
 				autoPlay:true,
 				loop:true,
+				volume:0.7,
                 list: [
 					{
 						title: "燕归巢",
@@ -20,6 +21,7 @@
             },options);
 			
 			var html =  '<div id="floatCD" class="floatCD" ondragstart="return false;">                                             '+
+						'	<!-- 顶部 mini 音乐播放器 Begin -->                                                                    '+
 						'	<div class="line"></div>                                                                               '+
 						'	<img data-action="cd" class="cd">                                                                      '+
 						'	<div title="暂停" data-action="pause" class="player pause"></div>                                      '+
@@ -27,35 +29,42 @@
 						'	<div title="上一曲" data-action="prev" class="player prev"></div>                                      '+
 						'	<div title="下一曲" data-action="next" class="player next"></div>                                      '+
 						'	<div title="列表" data-action="list" class="player list"></div>                                        '+
-						'	                                                                                                       '+
-						'	<audio id="musicPlayer" '+((options.autoPlay) ? "autoPlay" : "")+'></audio>                              '+
-						'	                                                                                                       '+
-						'	<!-- Begin -->                                                                                         '+
+						'	<audio id="musicPlayer" '+((options.autoPlay) ? "autoPlay" : "")+'></audio>                            '+
+						'	<!-- 顶部 mini 音乐播放器 End -->                                                                      '+
+						'	<!-- 音乐播放器列表 Begin -->                                                                          '+
 						'	<div id="Thplayer" class="Thplayer player-bgColor">                                                    '+
 						'		<div id="player-demo">                                                                             '+
 						'			<img data-action="cd" class="cd"/>                                                             '+
-						'			                                                                                               '+
 						'			<div title="暂停" data-action="pause" class="player pause"></div>                              '+
 						'			<div title="播放" data-action="play" class="player play"></div>                                '+
 						'			<div title="上一曲" data-action="prev" class="player prev"></div>                              '+
 						'			<div title="下一曲" data-action="next" class="player next"></div>                              '+
 						'			<div id="player-close" class="close-icon">×</div>                                              '+
-						'			                                                                                               '+
+						'			<div id="player-volume" class="player volume"></div>  									       '+
+						'			<!-- 音乐名称/歌手 -->                                                                         '+
 						'			<div id="player-info" class="player-info">                                                     '+
 						'				<strong class="title player-showFount"></strong>                                           '+
 						'				<span class="and player-showFount">-</span>                                                '+
 						'				<span class="author player-showFount"></span>                                              '+
 						'			</div>                                                                                         '+
+						'			<!-- 音乐播放时间/总时长 -->                                                                   '+
 						'			<div id="player-control" class="player-control">                                               '+
 						'				<span class="left-time player-showFount"></span>                                           '+
 						'				<span class="and player-showFount">/</span>                                                '+
 						'				<span class="right-time player-showFount"></span>                                          '+
 						'			</div>                                                                                         '+
-						'			                                                                                               '+
+						'			<!-- 音乐播放进度条 -->                                                                        '+
 						'			<div id="player-process" class="player-process">                                               '+
 						'				<div id="player-current" class="player-current"></div>                                     '+
 						'				<span style="left:0px;"></span>                                                            '+
 						'			</div>                                                                                         '+
+						'			<!-- 音乐音量进度条 -->                                                                        '+
+						'			<div id="player-volume-content" class="player-volume-content">                                 '+
+						'				<div id="player-volume-top-line" class="top-line"></div>                                   '+
+						'				<div id="player-volume-control" class="process"></div>                                     '+
+						'				<div id="player-volume-bottoml-line" class="bottom-line"></div>                            '+
+						'			</div>                                                                                         '+
+						'			<!-- 搜索，歌单 -->                                                                            '+
 						'			<div class="player-listbox playerbox-show">                                                    '+
 						'				<div class="searchBox">                                                                    '+
 						'					<input type="text" id="txtSong" placeholder="请输入歌曲名称，例如：七里香 周杰伦..." />'+
@@ -69,7 +78,7 @@
 						'					</tr>                                                                                  '+
 						'				   </thead>                                                                                '+
 						'				   <tbody id="UserList" class="UserList">                                                  '+
-						'					                                                                                       '+
+						'																							               '+
 						'				   </tbody>                                                                                '+
 						'				   <tfoot>                                                                                 '+
 						'					<tr id="LoadMore" class="LoadMore" offset="0" search="0">                              '+
@@ -80,6 +89,7 @@
 						'			</div>                                                                                         '+
 						'		</div>                                                                                             '+
 						'	</div>                                                                                                 '+
+						'	<!-- 音乐播放器列表 End -->  							                                               '+
 						'</div>                                                                                                    ';
 			
 			$("body").append(html);
@@ -90,6 +100,10 @@
 			var currentIndex = 0;
 			// 是否正在拖动进度条
 			var dragging = false; 
+			// 是否正在拖动音量进度条
+			var volumeDragging = false; 
+			// 默认音量
+			var defaultVolume = options.volume;
 			// 进度条拖动量
 			var iX, iY; 
 			
@@ -108,6 +122,8 @@
 			// 列表按钮
 			var listBtn = $("#floatCD div[data-action='list']");
 			
+			var playerVolume = $("#player-volume");
+			
 			// 音乐已播放时长
 			var playTime = $("#player-control .left-time");
 			// 音乐总时长
@@ -118,12 +134,18 @@
 			// 歌手
 			var singer = $("#player-info .author");
 			
-			
-			// 进度条，已播放进度
+			// 音乐进度条控制
 			var playerLeftprocess = $("#player-process span");
-			// 进度条，未播放进度
 			var playerRightprocess = $("#player-current");
 			
+			// 音量进度条控制
+			var playerVolumeContent = $("#player-volume-content");
+			var volumeTopLine = $("#player-volume-top-line");
+			var volumeControl = $("#player-volume-control");
+			var volumeBottomlLine = $("#player-volume-bottoml-line");
+			
+			// 初始化音乐控制进度条
+			setVolumeControl(defaultVolume);
 			
 			// 当播放清单不为空时
 			if ($.type(options.list) == "array" && options.list.length > 0) {
@@ -146,7 +168,6 @@
 					playerLeftprocess.css("left",(musicPlayer.currentTime/musicPlayer.duration)*200+"px");
 					playerRightprocess.css("width",(musicPlayer.currentTime/musicPlayer.duration)*200+"px");
 				}
-				
 			},1000);
 			
 			/*
@@ -161,7 +182,6 @@
 			// 开始播放时，获取歌曲时长
 			musicPlayer.onplaying = function() {
 				getSongTime();
-				//musicPlayer.currentTime = 50;
 			};
 			// 暂停播放时
 			musicPlayer.onpause = function() {
@@ -188,7 +208,7 @@
 			/*
 			 *  进度条事件
 			 */
-			// 按下进度条控制按钮时触发
+			// 按下播放进度条控制按钮时触发
 			playerLeftprocess.mousedown(function(e) { 
 				// true 表示正在拖动进度条
 				dragging = true; 
@@ -197,20 +217,37 @@
 				// 一旦窗口捕获了鼠标，所有鼠标输入都针对该窗口
 				this.setCapture && this.setCapture(); 
 			}); 
+			// 按下音量控制进度条时触发
+			volumeControl.mousedown(function(e) { 
+				volumeDragging = true; 
+				iY = e.clientY - this.offsetTop + 15; 
+				this.setCapture && this.setCapture(); 
+			});
+			
 			// 当鼠标移动时
 			document.onmousemove = function(e) { 
-				// 如果正在控制滚动条
+				// 正在控制播放进度条
 				if (dragging) { 
 					var e = e || window.event; 
 					// 记录鼠标移动量
 					var oX = e.clientX - iX; 
-					// 移动量最小0最大200
+					// 移动量最小0最大200，因为播放进度条最大长度200
 					oX = (oX <= 0) ? 0 : ((oX >= 200) ? 200 : oX);
 					// 设置进度条按钮位置
 					playerLeftprocess.css("left", oX + "px");
 					// 设置进度条以播放量
 					playerRightprocess.css("width",oX + "px");
-				} 
+				}
+				// 正在控制音乐进度条
+				if (volumeDragging){
+					var e = e || window.event; 
+					// 记录鼠标移动量
+					var oY = e.clientY - iY;
+					// 最大100，最小0，因为音量进度条最大高度 100
+					oY = (oY <= 0) ? 0 : ((oY >= 100) ? 100 : oY);
+					
+					changeVolume((100-oY) / 100);
+				}
 			}; 
 			// 当松开鼠标按钮时
 			$(document).mouseup(function(e) {
@@ -223,6 +260,7 @@
 				e.target.releaseCapture && e.target.releaseCapture();
 				// 是否控制进度条，改为否
 				dragging = false; 
+				volumeDragging = false; 
 				// 阻止事件冒泡
 				e.cancelBubble = true; 
 			});
@@ -232,35 +270,82 @@
 			 */
 			 // 播放按钮动作
 			 // data-action
-			 playBtn.click(function(){
-				 musicPlayer.play();
-			 });
-			 // 暂停按钮动作
-			 pauseBtn.click(function(){
-				 musicPlayer.pause();
-			 });
-			 // 上一曲按钮动作
-			 prevBtn.click(function(){
+			playBtn.click(function(){
+				musicPlayer.play();
+			});
+			// 暂停按钮动作
+			pauseBtn.click(function(){
+				musicPlayer.pause();
+			});
+			// 上一曲按钮动作
+			prevBtn.click(function(){
 				currentIndex = (currentIndex != 0) ? currentIndex - 1 : musicSize - 1;
 				musicPlay(currentIndex);
-			 });
-			 // 下一曲按钮动作
-			 nextBtn.click(function(){
-				 musicPlayNext();
-			 });
-			 // 列表按钮动作
-			 listBtn.click(function(){
+			});
+			// 下一曲按钮动作
+			nextBtn.click(function(){
+				musicPlayNext();
+			});
+			// 列表按钮动作
+			listBtn.click(function(){
 				closeOrOpenPlayer();
-			 });
-			 
+			});
+			
+			// 鼠标正悬停在音量控制进度条上
+			var volumeHover = false;
+			
+			// 静音/取消静音按钮悬停事件
+			playerVolume.hover(
+				function () {
+					// 鼠标移至静音/取消静音按钮上时，显示音量控制进度条
+					playerVolumeContent.show();
+				},
+				function () {
+					// 鼠标离开静音/取消静音按钮时，如果0.5秒后鼠标没有对音量控制进度条操作，则关闭音量控制进度条
+					setTimeout(function(){
+						if (!volumeHover) {
+							playerVolumeContent.hide();
+							volumeHover = false;
+						}
+					},500)
+				}
+			)
+			.click(function(){
+				// 如果有 class mute 表示当前是静音状态。
+				if ($(this).hasClass("mute")){
+					// 取消静音
+					changeVolume(defaultVolume);
+				}
+				else {
+					// 开启静音
+					changeVolume(0,true);
+				}
+				$(this).toggleClass("mute");
+			});
+			// 音量控制进度条鼠标悬停事件
+			playerVolumeContent.hover(
+				function () {
+					// 鼠标正悬停在音量控制进度条上
+					volumeHover = true;
+				},
+				function () {
+					// 鼠标离开音量控制进度条，隐藏进度条
+					volumeHover = false;
+					$(this).hide();
+				}
+			);
+			
+			 // 关闭音乐播放列表
 			 $("#player-close").click(function(){
 				 closeOrOpenPlayer();
 			 });
 			 
+			 // 歌曲查询
 			 $("#btnSearch").click(function () {
                 getAjax();
              });
-
+			
+			// 按下回车，自动查询歌曲
              $("#txtSong").keydown(function(event){
                 if (event.keyCode==13){
                     getAjax();
@@ -323,6 +408,25 @@
 				}
 				totalTime.text(parseInt(musicPlayer.duration / 60) + ":"+seconds);
             }
+			// 调整音量，volume 为音量，isMute 为true 时表示静音
+			function changeVolume(volume,isMute){
+				// 设置默认音量
+				musicPlayer.volume = volume;
+				// 如果不是静音，将默认音量设置为调整之后的音量
+				if (!isMute) {
+					defaultVolume = volume;
+				}
+				// 设置音量控制进度条
+				setVolumeControl(volume);
+			}
+			
+			// 设置音量进度条
+			function setVolumeControl(volume){
+				var height = volume * 100;
+				volumeTopLine.height(100-height);
+				volumeBottomlLine.height(height);				
+			}
+			
 			// 加载音乐列表
 			function loadMusicList(songsList){
 				// 音乐列表
