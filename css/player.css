@@ -1,155 +1,155 @@
 .floatCD {
-	position:fixed;
-	top:0px;
-	right:50px;
-	height:160px;
-	width:80px;
-	-webkit-user-select:none;
+    position:fixed;
+    top:0px;
+    right:50px;
+    height:160px;
+    width:80px;
+    -webkit-user-select:none;
     -moz-user-select:none;
     -ms-user-select:none;
     user-select:none;
-	animation: moveDown 2s linear 1; 
+    animation: moveDown 2s linear 1; 
 }
 .floatCD .line{
-	background:red;
-	width:2px;
-	height:80px;
-	left:39px;
-	position:absolute;
-	box-shadow: 0 0 5px #999;
+    background:red;
+    width:2px;
+    height:80px;
+    left:39px;
+    position:absolute;
+    box-shadow: 0 0 5px #999;
 }
 .floatCD .cd{
-	width: 80px;
+    width: 80px;
     height: 80px;
     position: absolute;
     top: 10px;
     left: 0px;
     border-radius: 50%;
-	top:80px;
-	box-shadow: 0 0 20px #999;
-	border: 1px #555 solid;
-	-webkit-animation:  CDturn 10s linear infinite;
+    top:80px;
+    box-shadow: 0 0 20px #999;
+    border: 1px #555 solid;
+    -webkit-animation:  CDturn 10s linear infinite;
     -moz-animation:  CDturn 10s linear infinite;
-	animation: CDturn 10s linear infinite;
-	animation-play-state: paused;
-	-webkit-animation-play-state: paused;
+    animation: CDturn 10s linear infinite;
+    animation-play-state: paused;
+    -webkit-animation-play-state: paused;
 }
 .floatCD .player{
-	position: absolute;
-	width:20px;
-	height:20px;
-	cursor: pointer;
-	display: block;
+    position: absolute;
+    width:20px;
+    height:20px;
+    cursor: pointer;
+    display: block;
 }
 .floatCD .pause{
     top: 107px;
     left: 28px;
-	width: 25px;
+    width: 25px;
     height: 25px;
     background: url(../img/pause.png) no-repeat;
     background-size: 100% 100%;
 }
 .floatCD .play{
-	top: 107px;
+    top: 107px;
     left: 28px;
-	width: 25px;
+    width: 25px;
     height: 25px;
-	background: url(../img/play.png) no-repeat;
-	background-size: 100% 100%;
+    background: url(../img/play.png) no-repeat;
+    background-size: 100% 100%;
 }
 .floatCD .prev{
-	top: 110px;
+    top: 110px;
     left: 4px;
-	background: url(../img/prev.png) no-repeat;
-	background-size: 100% 100%;
+    background: url(../img/prev.png) no-repeat;
+    background-size: 100% 100%;
 }
 .floatCD .next{
-	top: 110px;
+    top: 110px;
     right: 2px;
-	background: url(../img/next.png) no-repeat;
-	background-size: 100% 100%;
+    background: url(../img/next.png) no-repeat;
+    background-size: 100% 100%;
 }
 .floatCD .list{
-	bottom: 2px;
+    bottom: 2px;
     left: 29px;
-	background: url(../img/list.png) no-repeat;
-	background-size: 100% 100%;
+    background: url(../img/list.png) no-repeat;
+    background-size: 100% 100%;
 }
 .floatCD .volume{
-	top: 55px;
-    right: 11px;
-	width: 15px;
+    top: 50px;
+    right: 10px;
+    width: 15px;
     height: 15px;
-	background: url(../img/volume.png) no-repeat;
+    background: url(../img/volume.png) no-repeat;
     background-size: 100% 100%;
 }
 .floatCD .volume.mute{
-	background: url(../img/mute.png) no-repeat;
+    background: url(../img/mute.png) no-repeat;
     background-size: 100% 100%;
 }
 
 .Thplayer .pause{
-    width: 32px;
-    height: 32px;
-    left: 35px;
-    top: 35px;
+    width: 25px;
+    height: 25px;
+    left: 222px;
+    top: 46px;
 }
 .Thplayer .play{
-    width: 32px;
-    height: 32px;
-    left: 35px;
-    top: 35px;
+    width: 25px;
+    height: 25px;
+    left: 222px;
+    top: 46px;
 }
 .Thplayer .prev{
-	left: 12px;
-    top: 42px;
+    left: 190px;
+    top: 49px;
 }
 .Thplayer .next{
-	left: 70px;
-    top: 42px;
+    left: 260px;
+    top: 49px;
 }
-.Thplayer .cd{
-	width: 80px;
-    height: 80px;
+.Thplayer .album{
+    width: 70px;
+    height: 70px;
     position: absolute;
-    top: 10px;
-    left: 10px;
+    top: 15px;
+    left: 13px;
 }
 
 .floatCD .player-volume-content{
-	position:absolute;
-	right:5px;
-	height: 130px;
-	width:40px;
-	background: black;
-	bottom: 55px;
-	box-shadow: 0 0 5px #111;
-	padding-top:15px;
-	display:none;
+    position:absolute;
+    right:5px;
+    height: 130px;
+    width:40px;
+    background: black;
+    bottom: 55px;
+    box-shadow: 0 0 5px #111;
+    padding-top:15px;
+    display:none;
 }
 .floatCD .player-volume-content div {
-	margin: 0 auto;
+    margin: 0 auto;
 }
 .floatCD .player-volume-content .top-line {
-	background:#6f6e79;
-	width:2px;
-	height:100px;
+    background:#6f6e79;
+    width:2px;
+    height:100px;
 }
 
 .floatCD .player-volume-content .process {
-	width: 8px;
-	height: 8px;
-	border: 1px solid #272636;
-	-webkit-border-radius: 50%;
-	border-radius: 50%;
-	background: #ffffff;
-	cursor: pointer!important;
+    width: 8px;
+    height: 8px;
+    border: 1px solid #272636;
+    -webkit-border-radius: 50%;
+    border-radius: 50%;
+    background: #ffffff;
+    cursor: pointer!important;
 }
 
 .floatCD .player-volume-content .bottom-line {
-	background:red;
-	width:2px;
-	height:0px;
+    background:red;
+    width:2px;
+    height:0px;
 }
 
 .player-bgColor {
@@ -157,7 +157,7 @@
 }
 .Thplayer {
     position: fixed;
-    top: 80px;
+    top: 150px;
     right: -350px;
     width: 350px;
     height: 100px;
@@ -253,18 +253,18 @@
     position: absolute;
     cursor: pointer;
     right: 10px;
-	color: #BBB;
+    color: #BBB;
     font-size: 25px;
-	top: 10px;
+    top: 10px;
 }
 .floatCD .close-icon:hover{
     color: #EEE;
 }
 
 .searchBox{
-	width:100%;
-	text-align:center;
-	position:relative
+    width:100%;
+    text-align:center;
+    position:relative
 }
 
 .btnSearch {
@@ -315,23 +315,23 @@ width: 20px;
 }
 
 .th-list-table{
-	margin-top:10px;
+    margin-top:10px;
 }
 
 .th-list-table thead{
-	display:block;
-	height:30px;
-	border-bottom: 1px red solid;
-	font-family: 微软雅黑;
-	font-size: 14px;
+    display:block;
+    height:30px;
+    border-bottom: 1px red solid;
+    font-family: 微软雅黑;
+    font-size: 14px;
 }
 
 .UserList{
-	display:block;
-	height: 266px;
-	width:350px;
-	overflow:auto;
-	margin-top:10px;
+    display:block;
+    height: 266px;
+    width:350px;
+    overflow:auto;
+    margin-top:10px;
 }
 
 
@@ -363,10 +363,10 @@ width: 20px;
 }
 
 .LoadMore{
-	cursor: pointer; 
-	text-align: center; 
-	font-size: 10px; 
-	color: rgb(86, 84, 84);
+    cursor: pointer; 
+    text-align: center; 
+    font-size: 10px; 
+    color: rgb(86, 84, 84);
 }
 
 @keyframes CDturn{
@@ -375,6 +375,6 @@ width: 20px;
 }
 
 @keyframes moveDown {
-	0%{top:-160px;}
-	100%{top:0px;}
+    0%{top:-160px;}
+    100%{top:0px;}
 }
