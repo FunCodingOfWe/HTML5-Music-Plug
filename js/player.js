@@ -34,7 +34,7 @@
 						'	<!-- 音乐播放器列表 Begin -->                                                                          '+
 						'	<div id="Thplayer" class="Thplayer player-bgColor">                                                    '+
 						'		<div id="player-demo">                                                                             '+
-						'			<img data-action="cd" class="cd"/>                                                             '+
+						'			<img id="player-album" class="album"/>                                                             '+
 						'			<div title="暂停" data-action="pause" class="player pause"></div>                              '+
 						'			<div title="播放" data-action="play" class="player play"></div>                                '+
 						'			<div title="上一曲" data-action="prev" class="player prev"></div>                              '+
@@ -104,6 +104,8 @@
 			var volumeDragging = false; 
 			// 默认音量
 			var defaultVolume = options.volume;
+			// 默认音量,记录拖动音量进度条之前的音量
+			var defaultVolume2 = 0;
 			// 进度条拖动量
 			var iX, iY; 
 			
@@ -218,10 +220,13 @@
 				this.setCapture && this.setCapture(); 
 			}); 
 			// 按下音量控制进度条时触发
-			volumeControl.mousedown(function(e) { 
+			volumeControl.mousedown(function(e) {
 				volumeDragging = true; 
 				iY = e.clientY - this.offsetTop + 15; 
 				this.setCapture && this.setCapture(); 
+				if (defaultVolume != 0) {
+					defaultVolume2 = defaultVolume;
+				}
 			});
 			
 			// 当鼠标移动时
@@ -301,26 +306,26 @@
 					playerVolumeContent.show();
 				},
 				function () {
-					// 鼠标离开静音/取消静音按钮时，如果0.5秒后鼠标没有对音量控制进度条操作，则关闭音量控制进度条
+					// 鼠标离开静音/取消静音按钮时，如果1秒后鼠标没有对音量控制进度条操作，则关闭音量控制进度条
 					setTimeout(function(){
 						if (!volumeHover) {
 							playerVolumeContent.hide();
 							volumeHover = false;
 						}
-					},500)
+					},1000)
 				}
 			)
 			.click(function(){
 				// 如果有 class mute 表示当前是静音状态。
 				if ($(this).hasClass("mute")){
 					// 取消静音
-					changeVolume(defaultVolume);
+					changeVolume(defaultVolume == 0 ? defaultVolume2 : defaultVolume);
 				}
 				else {
 					// 开启静音
 					changeVolume(0,true);
 				}
-				$(this).toggleClass("mute");
+				//$(this).toggleClass("mute");
 			});
 			// 音量控制进度条鼠标悬停事件
 			playerVolumeContent.hover(
@@ -389,6 +394,7 @@
 				var musicJson = (null !=index) ? options.list[index] : json;
 				musicPlayer.src = musicJson.music;
 				cdImg.attr({"title":musicJson.author + "：" + musicJson.title,"src":musicJson.cover});
+				$("#player-album").attr("src",musicJson.cover);
 				musicName.text(musicJson.title);
 				singer.text(musicJson.author);
 				musicPlayer.play();
@@ -416,6 +422,7 @@
 				if (!isMute) {
 					defaultVolume = volume;
 				}
+				
 				// 设置音量控制进度条
 				setVolumeControl(volume);
 			}
@@ -424,7 +431,14 @@
 			function setVolumeControl(volume){
 				var height = volume * 100;
 				volumeTopLine.height(100-height);
-				volumeBottomlLine.height(height);				
+				volumeBottomlLine.height(height);
+				
+				if(volume == 0){
+					playerVolume.addClass("mute");
+				}
+				else {
+					playerVolume.removeClass("mute");
+				}
 			}
 			
 			// 加载音乐列表
